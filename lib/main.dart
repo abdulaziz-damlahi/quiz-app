@@ -24,12 +24,34 @@ class Quizzler extends StatelessWidget {
 }
 
 class QuizPage extends StatefulWidget {
+  List scoreKeeper = [];
   @override
   _QuizPageState createState() => _QuizPageState();
 }
 
 class _QuizPageState extends State<QuizPage> {
-  List<Icon> scoreKeeper = [];
+  List<Icon> scoreKeeper = [
+    Icon(
+      Icons.check,
+      color: Colors.green,
+    ),
+    Icon(
+      Icons.close,
+      color: Colors.red,
+    ),
+    Icon(
+      Icons.close,
+      color: Colors.red,
+    ),
+    Icon(
+      Icons.close,
+      color: Colors.red,
+    ),
+    Icon(
+      Icons.close,
+      color: Colors.red,
+    ),
+  ];
 
   void emptyScoreKeeper() {
     scoreKeeper.clear();
@@ -132,14 +154,19 @@ class _QuizPageState extends State<QuizPage> {
               ),
               onPressed: () {
                 //The user picked false.
-                checkAnswer(false);
+                scoreKeeper.add(
+                  Icon(
+                    Icons.check,
+                    color: Colors.green,
+                  ),
+                );
               },
             ),
           ),
         ),
         Row(
           children: scoreKeeper,
-        )
+        ),
       ],
     );
   }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'quiz_brain.dart';
+import 'question.dart';
 
 QuizBrain quizBrain = QuizBrain();
 
@@ -24,7 +25,6 @@ class Quizzler extends StatelessWidget {
 }
 
 class QuizPage extends StatefulWidget {
-  List scoreKeeper = [];
   @override
   _QuizPageState createState() => _QuizPageState();
 }
@@ -57,6 +57,16 @@ class _QuizPageState extends State<QuizPage> {
     scoreKeeper.clear();
   }
 
+  List<Question> questionbank = [
+    Question(q: 'A slug\'s blood is green.', a: false),
+    Question(
+        q: 'Approximately one quarter of human bones are in the feet.',
+        a: false),
+    Question(q: 'You can lead a cow down stairs but not up stairs.', a: false),
+  ];
+
+  int counter = 0;
+
   void checkAnswer(bool userPickedAnswer) {
     bool correctAnswer = quizBrain.getCorrectAnswer();
     setState(() {
@@ -73,6 +83,9 @@ class _QuizPageState extends State<QuizPage> {
                   style: TextStyle(color: Colors.white, fontSize: 20),
                 ),
                 onPressed: () {
+                  setState(() {
+                    counter++;
+                  });
                   Navigator.pop(context);
                   setState(() {
                     quizBrain.reset();
@@ -110,7 +123,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                quizBrain.getQuestionText(),
+                questionbank[counter].questionText,
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -134,7 +147,15 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //The user picked true.
+                bool correctAnswer = questionbank[counter].questionAnswer;
+                if (correctAnswer == true) {
+                  print('user git it right');
+                } else {
+                  print('they got it right');
+                }
+                setState(() {
+                  counter++;
+                });
                 checkAnswer(true);
               },
             ),
@@ -153,7 +174,10 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //The user picked false.
+                setState(() {
+                  counter++;
+                });
+
                 scoreKeeper.add(
                   Icon(
                     Icons.check,
